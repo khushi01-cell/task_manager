@@ -10,15 +10,23 @@ class UserCreate(BaseModel):
     username: str
     password: str
 
+
 class UserOut(BaseModel):
     id: int
     username: str
     class Config:
         from_attributes = True
 
+class LoginInput(BaseModel):
+    username: str
+    password: str
+
 class Token(BaseModel):
     access_token: str
     token_type: str
+class TaskUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
 
 class TaskBase(BaseModel):
     title: str

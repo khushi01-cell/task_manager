@@ -21,7 +21,19 @@ def create_task(db: Session, task: schemas.TaskCreate, user_id: int):
     db.commit()
     db.refresh(db_task)
     return db_task
+def get_task_by_id(db: Session, task_id: int):
+    return db.query(models.Task).filter(models.Task.id == task_id).first()
 
+def update_task(db: Session, db_task: models.Task, task_update: schemas.TaskUpdate):
+    for key, value in task_update.dict(exclude_unset=True).items():
+        setattr(db_task, key, value)
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+def delete_task(db: Session, db_task: models.Task):
+    db.delete(db_task)
+    db.commit()
 
 def get_tasks(db: Session, user_id: int):
     return db.query(models.Task).filter(models.Task.owner_id == user_id).all()
